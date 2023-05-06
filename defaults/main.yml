@@ -1,0 +1,58 @@
+---
+tailoringexpertdb_liquibase_version: 4.17.2
+
+tailorigexpertdb_user: tailoringexpert
+tailorigexpertdb_group: tailoringexpert
+
+tailoringexpertdb_home: /app
+tailoringexpertdb_changelog_home: "{{ tailoringexpertdb_home }}/changelogs"
+tailoringexpertdb_liquibase_home: "{{ tailoringexpertdb_home }}/liquibase"
+
+
+directories: [ 
+  "{{ tailoringexpertdb_changelog_home }}",
+  "{{ tailoringexpertdb_liquibase_home }}/{{ tailoringexpertdb_liquibase_version }}"
+]  
+
+plattform:
+  name: tailoringexpert
+  database:
+    name: tailoringexpert
+    password: "{{ db_tailoringexpert_password }}"
+    url: jdbc:mariadb://localhost:3306/tailoringexpert
+    priv: tailoringexpert.*:ALL
+    #host: "172.20.0.0/255.255.255.0"
+    host: "%"
+    changelog: 
+      name: db-tailoringexpert/db.changelog-root.xml 
+      src: "{{ app_version }}/tailoringexpert-db-{{ app_version }}{{ app_snapshot }}-liquibase.zip"
+      dest: "{{ tailoringexpertdb_changelog_home }}/"  
+      remote_src: no
+      clear_checksums: false
+  
+tenants: []
+#  - name: sample
+#    database:
+#      name: tailoringexpert_sample
+#      password: "{{ sample_db_password }}"
+#      url: jdbc:mariadb://localhost:3306/tailoringexpert_sample
+#      priv: tailoringexpert_sample.*:ALL
+#      host: "%"
+#      changelog: 
+#        name: db-tailoringexpert-sample/db.changelog-root.xml   
+#        src: "{{ app_version }}/sampe/tailoringexpert-sample-db-{{ app_version }}{{ app_snapshot }}-liquibase.zip"
+#        dest: "{{ tailoringexpertdb_changelog_home }}/"  
+#        remote_src: no
+#        clear_checksums: false
+
+liquibase:
+  version: "{{ tailoringexpertdb_liquibase_version }}"
+  home: "{{ tailoringexpertdb_liquibase_home }}"
+  src: liquibase-{{ tailoringexpertdb_liquibase_version }}-bin.tar.gz
+  dest: "{{ tailoringexpertdb_liquibase_home }}/{{ tailoringexpertdb_liquibase_version }}"
+  remote_src: no
+  
+db_tailoringexpert_password: "{{ vault_db_tailoringexpert_password }}"
+  
+ansiblelog:
+  db: no
