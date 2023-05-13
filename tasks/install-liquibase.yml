@@ -1,0 +1,13 @@
+---
+- name: Install Liquibase
+  unarchive:
+    src: "{{ liquibase.src }}"
+    dest: "{{ liquibase.dest }}"
+    remote_src: "{{ liquibase.remote_src }}"
+    mode: 0755
+  
+- name: Symlink current liquibase version
+  file:
+    src: "{{ liquibase.home }}/{{ liquibase.version }}"
+    dest:  "{{ liquibase.home}}/current"
+    state: link   

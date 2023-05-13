@@ -1,0 +1,24 @@
+---    
+- name: Create directory layout
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_items: "{{ directories }}"
+  become: true
+  remote_user: "{{ sudo_user }}"
+  when: item | length > 0
+  
+  
+- include_tasks: 
+    file: install-liquibase.yml 
+
+- include_tasks: 
+    file: create-database.yml
+  loop: "{{ [plattform] + tenants }}"
+  loop_control:
+    loop_var: tenant    
+    
+
+
