@@ -5,12 +5,11 @@
     state: directory
     owner: "{{ user }}"
     group: "{{ group }}"
-  with_items: "{{ directories }}"
+  with_items: "{{ db_directories }}"
   become: true
   remote_user: "{{ sudo_user }}"
-  when: item | length > 0
-  
-  
+  when: item | length > 0  
+    
 - include_tasks: 
     file: install-liquibase.yml 
 
