@@ -23,7 +23,7 @@
 
 - name: "{{ tenant.name | upper }} | clear checksums"
   shell: 
-    cmd: "{{ db_liquibase_home }}/current/liquibase --username={{ tenant.database.name }} --password={{ tenant.database.password }} --url={{ tenant.database.url }} --changeLogFile={{ tenant.database.changelog.name }} clearCheckSums"
+    cmd: "{{ db_liquibase_home }}/liquibase --username={{ tenant.database.name }} --password={{ tenant.database.password }} --url={{ tenant.database.url }} --changeLogFile={{ tenant.database.changelog.name }} clearCheckSums"
     chdir: "{{ db_changelog_home }}"
   when: tenant.database.changelog.clear_checksums 
 
@@ -37,8 +37,10 @@
     src: "{{ tenant.database.changelog.src }}"
     dest: "{{ tenant.database.changelog.dest }}"
     remote_src: "{{ tenant.database.changelog.remote_src }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"    
   
 - name: "{{ tenant.name | upper }} | install changelog"
   shell: 
-    cmd: "{{ db_liquibase_home }}/current/liquibase --username={{ tenant.database.name }} --password={{ tenant.database.password }} --url={{ tenant.database.url }} --changeLogFile={{ tenant.database.changelog.name }} update"
+    cmd: "{{ db_liquibase_home }}/liquibase --username={{ tenant.database.name }} --password={{ tenant.database.password }} --url={{ tenant.database.url }} --changeLogFile={{ tenant.database.changelog.name }} update"
     chdir: "{{ db_changelog_home }}"

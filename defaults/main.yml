@@ -3,7 +3,7 @@ db_liquibase_version: 4.17.2
 
 db_home: /app
 db_changelog_home: "{{ db_home }}/changelogs"
-db_liquibase_home: "{{ db_home }}/liquibase"
+db_liquibase_home: "{{ db_home }}/liquibase-{{ db_liquibase_version }}"
 db_tailoringexpert_url: jdbc:mariadb://localhost:3306/tailoringexpert
 db_tailoringexpert_priv: tailoringexpert.*:ALL
 db_tailoringexpert_host: "%"
@@ -12,7 +12,7 @@ db_tailoringexpert_password: changeMe!
 
 db_directories: [ 
   "{{ db_changelog_home }}",
-  "{{ db_liquibase_home }}/{{ db_liquibase_version }}"
+  "{{ db_liquibase_home }}"
 ]  
 
 plattform:
